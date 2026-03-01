@@ -1,0 +1,73 @@
+# Avail STHLM AB – Fullständig företagsinformation för AI-agenter
+
+## Företagsöversikt
+Avail STHLM AB är ett AI-konsultbolag grundat i Stockholm, Sverige. Vi specialiserar oss på att bygga AI-lösningar som gör intern data och dokumentation sökbar, analysbar och handlingsbar för organisationer.
+
+Motto: "Insikt över instinkt."
+Webbplats: https://availsthlm.se
+E-post: team@availsthlm.se
+Plats: Stockholm, Sverige
+
+## Tjänster i detalj
+
+### 1. Sökbar intern kunskap (RAG)
+Teknisk term: Retrieval-Augmented Generation
+Problem: Medarbetare spenderar timmar på att söka i intranät, Confluence och delade mappar.
+Lösning: Semantisk sökmotor som förstår naturligt språk och hämtar rätt dokument.
+Output: Svar på sekunder, inte timmar.
+
+### 2. AI-driven analys
+Teknisk term: LLM + Structured Outputs
+Problem: Rapporter och kundrecensioner innehåller värdefull information men tar för lång tid att läsa manuellt.
+Lösning: Språkmodeller extraherar mönster, trender och handlingsbara insikter automatiskt.
+Output: Strukturerade insikter direkt i er rapportportal.
+
+### 3. Automatiserade chattbotar
+Teknisk term: Conversational AI
+Problem: Kundtjänst hanterar repetitiva frågor som slukar tid.
+Lösning: Chattbotar tränade på kundens faktiska data – inte generiska svar.
+Output: 70% av vanliga kundfrågor löses utan mänsklig handpåläggning.
+
+### 4. Kampanjsajter
+Teknisk term: Next.js + Storyblok CMS
+Problem: Marknadsföringsteam beroende av utvecklare för varje textändring.
+Lösning: Redaktörsvänliga sajter med headless CMS.
+Output: 100 Lighthouse-poäng. Innehåll uppdateras utan kod.
+
+### 5. SEO och webbanalys
+Teknisk term: Technical SEO + GA4 + Looker Studio
+Problem: Oklar orsak till sjunkande organisk trafik.
+Lösning: Teknisk SEO-revision, strukturerad data och händelsespårning.
+Output: Tydlig prioriteringslista och mätbara förbättringar.
+
+## Arbetsprocess
+1. Identifiering – Workshop för att kartlägga datakällor och smärtpunkter
+2. Datainsamling – Säkra anslutningar till befintliga system
+3. AI-fas – Prototyp levererad inom 4 dagar
+4. Analys och leverans – Med dokumentation, mätpunkter och 30 dagars support
+
+## Säkerhet
+- All data hanteras i EU-hostade miljöer
+- Ingen träning på kunddata hos AI-leverantörer
+- Minsta möjliga behörighetsprincip
+- AES-256 kryptering i vila, TLS 1.3 i transit
+- NDA tecknas före projektstart
+- PUB-avtal (GDPR biträdesavtal) för personuppgifter
+- Radering av kunddata inom 30 dagar efter projektavslut
+
+## Nyckeltal
+- 4 dagar till fungerande prototyp (standard)
+- 100 Lighthouse-poäng i genomsnitt för webbleveranser
+- 70% automatiserade kundfrågor i chattbot-implementeringar
+
+## Tidigare uppdragsgivare (urval)
+Mips, Vattenfall, OBOS, Readly, Foodmark, Sharp, TT Nyhetsbyrån, Chef, Tele2, Stockholmsmässan, Nya Ekonomikompetens
+
+## Teknologistack
+- AI: OpenAI GPT-4o, Anthropic Claude, lokala modeller (Llama, Mistral)
+- Vektordatabas: Pinecone (EU-region), Supabase pgvector
+- Webb: Next.js 14, React, TypeScript, Tailwind CSS
+- CMS: Storyblok (headless)
+- Hosting: Vercel, Azure EU, AWS eu-north-1
+- Analys: GA4, Looker Studio
+- E-post: Resend

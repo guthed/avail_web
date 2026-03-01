@@ -1,0 +1,21 @@
+# Avail STHLM AB
+
+## Vad vi gör
+Avail STHLM AB är ett AI-bolag baserat i Stockholm. Vi bygger lösningar som gör intern data och dokumentation sökbar, användbar och direkt handlingsbar.
+
+## Tjänster
+- Sökbar intern kunskap (RAG / Retrieval-Augmented Generation)
+- AI-driven analys (LLM + Structured Outputs)
+- Automatiserade chattbotar (Conversational AI)
+- Kampanjsajter (Next.js + Storyblok)
+- SEO och webbanalys (Technical SEO + GA4)
+
+## Kontakt
+E-post: team@availsthlm.se
+Plats: Stockholm, Sverige
+
+## Webbplats
+https://availsthlm.se
+
+## Motto
+Insikt över instinkt.
