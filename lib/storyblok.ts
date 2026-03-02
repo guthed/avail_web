@@ -1,4 +1,5 @@
 import { apiPlugin, storyblokInit } from "@storyblok/react/rsc";
+import { draftMode } from "next/headers";
 
 export const getStoryblokApi = () => {
   storyblokInit({
@@ -13,9 +14,11 @@ export const getStoryblokApi = () => {
 
 export async function fetchStory(slug: string) {
   try {
+    const isDraft = (await draftMode()).isEnabled;
     const sb = getStoryblokApi();
     const { data } = await sb.get(`cdn/stories/${slug}`, {
-      version: "draft",
+      version: isDraft ? "draft" : "published",
+      ...(isDraft && { cv: Date.now() }),
     });
     return data.story;
   } catch {
@@ -25,10 +28,12 @@ export async function fetchStory(slug: string) {
 
 export async function fetchStories(startsWith: string) {
   try {
+    const isDraft = (await draftMode()).isEnabled;
     const sb = getStoryblokApi();
     const { data } = await sb.get("cdn/stories", {
       starts_with: startsWith,
-      version: "draft",
+      version: isDraft ? "draft" : "published",
+      ...(isDraft && { cv: Date.now() }),
     });
     return data.stories;
   } catch {
