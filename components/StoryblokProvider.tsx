@@ -22,7 +22,7 @@ export default function StoryblokProvider({
     const w = window as any;
     if (!w.StoryblokBridge) return;
     const bridge = new w.StoryblokBridge();
-    bridge.on(["input", "published", "change", "unpublished"], () => {
+    bridge.on(["input", "saved", "published", "change", "unpublished"], () => {
       router.refresh();
     });
   }, [router]);
