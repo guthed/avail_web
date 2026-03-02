@@ -1,27 +1,40 @@
-import { apiPlugin, storyblokInit } from "@storyblok/react/rsc";
 import { draftMode } from "next/headers";
 
-export const getStoryblokApi = () => {
-  storyblokInit({
-    accessToken: process.env.STORYBLOK_PREVIEW_TOKEN,
-    use: [apiPlugin],
-  });
+const STORYBLOK_API = "https://api.storyblok.com/v2/cdn";
 
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { storyblokApi } = require("@storyblok/react/rsc");
-  return storyblokApi;
-};
+async function sbFetch(
+  path: string,
+  params: Record<string, string> = {}
+): Promise<Record<string, unknown>> {
+  const token = process.env.STORYBLOK_PREVIEW_TOKEN;
+  if (!token) throw new Error("STORYBLOK_PREVIEW_TOKEN saknas");
+
+  const url = new URL(`${STORYBLOK_API}/${path}`);
+  url.searchParams.set("token", token);
+  for (const [k, v] of Object.entries(params)) {
+    url.searchParams.set(k, v);
+  }
+
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Storyblok API ${res.status}: ${body}`);
+  }
+  return res.json();
+}
 
 export async function fetchStory(slug: string) {
   try {
     const isDraft = (await draftMode()).isEnabled;
-    const sb = getStoryblokApi();
-    const { data } = await sb.get(`cdn/stories/${slug}`, {
+    const data = await sbFetch(`stories/${slug}`, {
       version: isDraft ? "draft" : "published",
-      ...(isDraft && { cv: Date.now() }),
+      ...(isDraft && { cv: String(Date.now()) }),
     });
-    return data.story;
-  } catch {
+    return data.story as Record<string, unknown> & {
+      content: Record<string, unknown>;
+    };
+  } catch (e) {
+    console.error("[fetchStory] Error:", e);
     return null;
   }
 }
@@ -29,14 +42,14 @@ export async function fetchStory(slug: string) {
 export async function fetchStories(startsWith: string) {
   try {
     const isDraft = (await draftMode()).isEnabled;
-    const sb = getStoryblokApi();
-    const { data } = await sb.get("cdn/stories", {
+    const data = await sbFetch("stories", {
       starts_with: startsWith,
       version: isDraft ? "draft" : "published",
-      ...(isDraft && { cv: Date.now() }),
+      ...(isDraft && { cv: String(Date.now()) }),
     });
-    return data.stories;
-  } catch {
+    return data.stories as unknown[];
+  } catch (e) {
+    console.error("[fetchStories] Error:", e);
     return [];
   }
 }

@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import StoryblokProvider from "@/components/StoryblokProvider";
+import { draftMode } from "next/headers";
 
 const instrumentSerif = Instrument_Serif({
   weight: ["400"],
@@ -57,7 +58,8 @@ const websiteJsonLd = {
   url: "https://availsthlm.se",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { isEnabled: isDraft } = await draftMode();
   return (
     <html lang="sv" className={`${instrumentSerif.variable} ${interTight.variable}`}>
       <head>
@@ -84,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
       </head>
       <body>
-        <StoryblokProvider>
+        <StoryblokProvider isDraft={isDraft}>
           <Nav />
           <main>{children}</main>
           <Footer />

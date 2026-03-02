@@ -13,8 +13,10 @@ storyblokInit({
 
 export default function StoryblokProvider({
   children,
+  isDraft,
 }: {
   children: React.ReactNode;
+  isDraft: boolean;
 }) {
   const router = useRouter();
 
@@ -31,16 +33,18 @@ export default function StoryblokProvider({
   // Fallback: om bridge redan finns i window (hot reload / klient-navigation)
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((window as any).StoryblokBridge) initBridge();
-  }, [initBridge]);
+    if (isDraft && (window as any).StoryblokBridge) initBridge();
+  }, [initBridge, isDraft]);
 
   return (
     <>
-      <Script
-        src="//app.storyblok.com/f/storyblok-v2-latest.js"
-        strategy="afterInteractive"
-        onLoad={initBridge}
-      />
+      {isDraft && (
+        <Script
+          src="//app.storyblok.com/f/storyblok-v2-latest.js"
+          strategy="afterInteractive"
+          onLoad={initBridge}
+        />
+      )}
       {children}
     </>
   );
