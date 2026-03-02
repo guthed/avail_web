@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { draftMode } from "next/headers";
 
 const STORYBLOK_API = "https://api.storyblok.com/v2/cdn";
@@ -5,7 +6,7 @@ const STORYBLOK_API = "https://api.storyblok.com/v2/cdn";
 async function sbFetch(
   path: string,
   params: Record<string, string> = {}
-): Promise<Record<string, unknown>> {
+): Promise<any> {
   const token = process.env.STORYBLOK_PREVIEW_TOKEN;
   if (!token) throw new Error("STORYBLOK_PREVIEW_TOKEN saknas");
 
@@ -23,23 +24,21 @@ async function sbFetch(
   return res.json();
 }
 
-export async function fetchStory(slug: string) {
+export async function fetchStory(slug: string): Promise<any> {
   try {
     const isDraft = (await draftMode()).isEnabled;
     const data = await sbFetch(`stories/${slug}`, {
       version: isDraft ? "draft" : "published",
       ...(isDraft && { cv: String(Date.now()) }),
     });
-    return data.story as Record<string, unknown> & {
-      content: Record<string, unknown>;
-    };
+    return data.story;
   } catch (e) {
     console.error("[fetchStory] Error:", e);
     return null;
   }
 }
 
-export async function fetchStories(startsWith: string) {
+export async function fetchStories(startsWith: string): Promise<any[]> {
   try {
     const isDraft = (await draftMode()).isEnabled;
     const data = await sbFetch("stories", {
@@ -47,7 +46,7 @@ export async function fetchStories(startsWith: string) {
       version: isDraft ? "draft" : "published",
       ...(isDraft && { cv: String(Date.now()) }),
     });
-    return data.stories as unknown[];
+    return data.stories ?? [];
   } catch (e) {
     console.error("[fetchStories] Error:", e);
     return [];
