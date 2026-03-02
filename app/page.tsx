@@ -47,14 +47,13 @@ export default async function HomePage() {
               lineHeight: 1.1,
             }}
           >
-            {c.hero_heading ?? "Insikt över instinkt."}
+            {c.hero_heading}
           </h1>
           <p
             className="font-sans text-xl font-light max-w-2xl leading-relaxed"
             style={{ color: "#888883" }}
           >
-            {c.hero_subtext ??
-              "AI-lösningar som gör intern data och dokumentation sökbar, användbar och direkt handlingsbar."}
+            {c.hero_subtext}
           </p>
           <div className="mt-12 flex flex-wrap gap-4">
             <a
@@ -62,14 +61,14 @@ export default async function HomePage() {
               className="font-sans text-sm font-medium px-6 py-3 rounded transition-colors"
               style={{ backgroundColor: "#7EEBC0", color: "#111111" }}
             >
-              {c.hero_cta_primary ?? "Starta ett projekt"}
+              {c.hero_cta_primary}
             </a>
             <a
               href="/tjanster"
               className="font-sans text-sm px-6 py-3 rounded border transition-colors"
               style={{ color: "#F5F4F0", borderColor: "rgba(224,223,219,0.3)" }}
             >
-              {c.hero_cta_secondary ?? "Se tjänster"}
+              {c.hero_cta_secondary}
             </a>
           </div>
         </div>
@@ -93,7 +92,7 @@ export default async function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.services_heading ?? "Från rådata till beslut."}
+              {c.services_heading}
             </h2>
           </ScrollReveal>
 
@@ -199,17 +198,16 @@ export default async function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.security_heading ?? "Data i Sverige."}{" "}
+              {c.security_heading}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                {c.security_italic ?? "Ingen träning på kunddata."}
+                {c.security_italic}
               </span>
             </h2>
             <p
               className="font-sans text-base leading-relaxed mb-8"
               style={{ color: "#888883" }}
             >
-              {c.security_text ??
-                "Alla AI-modeller körs i EU-hostade miljöer. Din data används aldrig för att träna generella modeller."}
+              {c.security_text}
             </p>
             <a
               href="/sakerhet"
@@ -262,17 +260,7 @@ export default async function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.cta_heading ? (
-                c.cta_heading
-              ) : (
-                <>
-                  Redo att göra er data{" "}
-                  <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                    användbar
-                  </span>
-                  ?
-                </>
-              )}
+              {c.cta_heading}
             </h2>
             <a
               href="/kontakt"

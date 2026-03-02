@@ -62,17 +62,16 @@ export default async function HurViJobbarPage() {
                 lineHeight: 1.1,
               }}
             >
-              {c.heading ?? "Fyra faser."}{" "}
+              {c.heading}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                {c.heading_italic ?? "Prototyp på 4 dagar."}
+                {c.heading_italic}
               </span>
             </h1>
             <p
               className="font-sans text-xl font-light max-w-2xl leading-relaxed"
               style={{ color: "#888883" }}
             >
-              {c.subheading ??
-                "Vi arbetar i ett strukturerat men flexibelt ramverk. Ni vet alltid var i processen vi befinner oss och vad som händer härnäst."}
+              {c.subheading}
             </p>
           </ScrollReveal>
         </div>
@@ -116,7 +115,7 @@ export default async function HurViJobbarPage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.principles_heading ?? "Principer vi arbetar efter"}
+              {c.principles_heading}
             </h2>
           </ScrollReveal>
           <ScrollReveal stagger className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -166,14 +165,13 @@ export default async function HurViJobbarPage() {
                   fontStyle: "italic",
                 }}
               >
-                {c.tempo_number ?? "4 dagar."}
+                {c.tempo_number}
               </p>
               <p
                 className="font-sans text-lg max-w-xl leading-relaxed"
                 style={{ color: "rgba(245,244,240,0.7)" }}
               >
-                {c.tempo_text ??
-                  "Så lång tid tar det från kick-off till att ni kan klicka, testa och ge feedback på en fungerande prototyp. Inte en demo. Inte en mockup. En prototyp som fungerar på er faktiska data."}
+                {c.tempo_text}
               </p>
             </div>
           </ScrollReveal>
@@ -195,7 +193,7 @@ export default async function HurViJobbarPage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.cta_heading ?? "Redo att starta?"}
+              {c.cta_heading}
             </h2>
             <a
               href="/kontakt"

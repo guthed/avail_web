@@ -50,17 +50,16 @@ export default async function TjansterPage() {
                 lineHeight: 1.1,
               }}
             >
-              {c.heading ?? "AI-drivna lösningar som gör"}{" "}
+              {c.heading}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                {c.heading_italic ?? "komplext enkelt."}
+                {c.heading_italic}
               </span>
             </h1>
             <p
               className="font-sans text-xl font-light max-w-2xl leading-relaxed"
               style={{ color: "#888883" }}
             >
-              {c.subheading ??
-                "Vi arbetar i två spår: att göra er interna kunskap tillgänglig, och att nå era kunder effektivare."}
+              {c.subheading}
             </p>
           </ScrollReveal>
         </div>
@@ -211,14 +210,13 @@ export default async function TjansterPage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.cta_heading ?? "Osäker på vad ni behöver?"}
+              {c.cta_heading}
             </h2>
             <p
               className="font-sans text-base leading-relaxed mb-8"
               style={{ color: "#888883" }}
             >
-              {c.cta_text ??
-                "Boka ett kort samtal så går vi igenom er situation och föreslår ett konkret nästa steg – utan förpliktelser."}
+              {c.cta_text}
             </p>
             <a
               href="/kontakt"

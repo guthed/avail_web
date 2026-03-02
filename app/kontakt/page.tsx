@@ -35,17 +35,16 @@ export default async function KontaktPage() {
                 lineHeight: 1.1,
               }}
             >
-              {c.heading ?? "Berätta om er"}{" "}
+              {c.heading}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                {c.heading_italic ?? "utmaning."}
+                {c.heading_italic}
               </span>
             </h1>
             <p
               className="font-sans text-xl font-light max-w-xl leading-relaxed"
               style={{ color: "#888883" }}
             >
-              {c.subheading ??
-                "Vi svarar inom en arbetsdag med ett konkret förslag – inte en standardpitch."}
+              {c.subheading}
             </p>
           </ScrollReveal>
         </div>
@@ -71,11 +70,11 @@ export default async function KontaktPage() {
                     E-post
                   </p>
                   <a
-                    href={`mailto:${c.email ?? "team@availsthlm.se"}`}
+                    href={`mailto:${c.email}`}
                     className="font-sans text-lg transition-colors"
                     style={{ color: "#7EEBC0" }}
                   >
-                    {c.email ?? "team@availsthlm.se"}
+                    {c.email}
                   </a>
                 </div>
                 <div>
@@ -86,11 +85,10 @@ export default async function KontaktPage() {
                     Plats
                   </p>
                   <p className="font-sans text-base" style={{ color: "#F5F4F0" }}>
-                    {c.location ?? "Stockholm, Sverige"}
+                    {c.location}
                   </p>
                   <p className="font-sans text-sm mt-1" style={{ color: "#888883" }}>
-                    {c.location_sub ??
-                      "Vi arbetar med kunder i hela Norden och tar digitala möten."}
+                    {c.location_sub}
                   </p>
                 </div>
                 <div>
@@ -101,7 +99,7 @@ export default async function KontaktPage() {
                     Svarstid
                   </p>
                   <p className="font-sans text-base" style={{ color: "#F5F4F0" }}>
-                    {c.response_time ?? "Inom en arbetsdag."}
+                    {c.response_time}
                   </p>
                 </div>
                 <div
@@ -115,11 +113,10 @@ export default async function KontaktPage() {
                     className="font-serif text-base italic mb-3"
                     style={{ color: "#B8A9E8" }}
                   >
-                    {c.cta_box_heading ?? "Inte redo att skicka ett meddelande?"}
+                    {c.cta_box_heading}
                   </p>
                   <p className="font-sans text-sm leading-relaxed" style={{ color: "#888883" }}>
-                    {c.cta_box_text ??
-                      "Boka ett 20-minuterssamtal direkt i vår kalender. Vi lyssnar, ger en opartisk bedömning och föreslår ett nästa steg – utan förpliktelse."}
+                    {c.cta_box_text}
                   </p>
                 </div>
               </div>

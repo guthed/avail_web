@@ -48,17 +48,16 @@ export default async function CasePage() {
                 lineHeight: 1.1,
               }}
             >
-              {c.heading ?? "Resultat,"}{" "}
+              {c.heading}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                {c.heading_italic ?? "inte presentationer."}
+                {c.heading_italic}
               </span>
             </h1>
             <p
               className="font-sans text-xl font-light max-w-xl leading-relaxed"
               style={{ color: "#888883" }}
             >
-              {c.subheading ??
-                "Vi mäter framgång i minskad söktid, färre supportärenden och sidor som faktiskt rankar."}
+              {c.subheading}
             </p>
           </ScrollReveal>
         </div>
@@ -127,7 +126,7 @@ export default async function CasePage() {
                 lineHeight: 1.2,
               }}
             >
-              {c.cta_heading ?? "Nästa case kan vara ert."}
+              {c.cta_heading}
             </h2>
             <a
               href="/kontakt"
