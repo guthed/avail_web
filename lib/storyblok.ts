@@ -29,7 +29,7 @@ export async function fetchStory(slug: string): Promise<any> {
     const isDraft = (await draftMode()).isEnabled;
     const data = await sbFetch(`stories/${slug}`, {
       version: isDraft ? "draft" : "published",
-      ...(isDraft && { cv: String(Date.now()) }),
+      cv: String(Date.now()),
     });
     return data.story;
   } catch (e) {
