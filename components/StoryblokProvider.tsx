@@ -2,12 +2,13 @@
 
 import { storyblokInit, apiPlugin } from "@storyblok/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import Script from "next/script";
 
 storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW_TOKEN,
   use: [apiPlugin],
-  bridge: true,
+  bridge: false, // Vi laddar bridge-scriptet manuellt nedan
 });
 
 export default function StoryblokProvider({
@@ -17,7 +18,7 @@ export default function StoryblokProvider({
 }) {
   const router = useRouter();
 
-  useEffect(() => {
+  const initBridge = useCallback(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as any;
     if (!w.StoryblokBridge) return;
@@ -27,5 +28,20 @@ export default function StoryblokProvider({
     });
   }, [router]);
 
-  return <>{children}</>;
+  // Fallback: om bridge redan finns i window (hot reload / klient-navigation)
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((window as any).StoryblokBridge) initBridge();
+  }, [initBridge]);
+
+  return (
+    <>
+      <Script
+        src="//app.storyblok.com/f/storyblok-v2-latest.js"
+        strategy="afterInteractive"
+        onLoad={initBridge}
+      />
+      {children}
+    </>
+  );
 }
