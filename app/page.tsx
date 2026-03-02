@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import { fetchStory } from "@/lib/storyblok";
 
 export const metadata: Metadata = {
   title: "Avail STHLM AB – AI-lösningar som gör data användbar",
@@ -8,91 +9,30 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const services = [
-  {
-    group: "Förstå din data",
-    items: [
-      {
-        title: "Sökbar intern kunskap",
-        term: "RAG / Retrieval-Augmented Generation",
-        problem:
-          "Medarbetare spenderar timmar på att söka i intranät, Confluence och delade mappar – och hittar ändå inte rätt.",
-        losning:
-          "Vi bygger en semantisk sökmotor som förstår frågor på naturligt språk och hämtar rätt dokument, oavsett hur de är namngivna.",
-        output: "Svar på sekunder, inte timmar.",
-        ex1: "Intern FAQ-bot för HR-avdelning",
-        ex2: "Teknisk dokumentationssökning för supportteam",
-      },
-      {
-        title: "AI-driven analys",
-        term: "LLM + Structured Outputs",
-        problem:
-          "Rapporter, kundrecensioner och rådataloggar innehåller värdefull information – men det tar för lång tid att läsa igenom allt.",
-        losning:
-          "Vi kopplar språkmodeller till er data och extraherar mönster, trender och handlingsbara insikter automatiskt.",
-        output: "Strukturerade insikter direkt i er rapportportal.",
-        ex1: "Sentimentanalys av kundrecensioner",
-        ex2: "Automatiserad konkurrentbevakning",
-      },
-      {
-        title: "Automatiserade chattbotar",
-        term: "Conversational AI",
-        problem:
-          "Kundtjänst hanterar repetitiva frågor som slukar tid och ökar kostnader.",
-        losning:
-          "Vi tränar chattbotar på er faktiska produktdokumentation och kundhistorik – inte generiska svar.",
-        output: "70% av vanliga frågor löses utan mänsklig handpåläggning.",
-        ex1: "E-handelssupport med orderhantering",
-        ex2: "Internt IT-helpdesk för vanliga tekniska problem",
-      },
-    ],
-  },
-  {
-    group: "Nå dina kunder",
-    items: [
-      {
-        title: "Kampanjsajter",
-        term: "Next.js + Storyblok",
-        problem:
-          "Marknadsföringsteam är beroende av utvecklare för varje textändring, vilket bromsar kampanjer.",
-        losning:
-          "Vi bygger redaktörsvänliga sajter med headless CMS – snabba, GDPR-säkra och optimerade för konvertering.",
-        output: "100 Lighthouse-poäng. Innehåll som kan uppdateras utan kod.",
-        ex1: "Produktlansering med A/B-testning",
-        ex2: "Eventsajt med anmälningsflöde",
-      },
-      {
-        title: "SEO och webbanalys",
-        term: "Technical SEO + GA4",
-        problem:
-          "Ni vet inte varför er organiska trafik sjunker, eller var potentiella kunder lämnar sajten.",
-        losning:
-          "Teknisk SEO-revision, strukturerad data och händelsespårning som ger faktiska svar – inte bara sidvisningar.",
-        output: "Tydlig prioriteringslista och mätbara förbättringar.",
-        ex1: "Core Web Vitals-optimering",
-        ex2: "Konverteringstrattanalys",
-      },
-    ],
-  },
-];
+export default async function HomePage() {
+  const story = await fetchStory("home");
+  const c = story?.content ?? {};
 
-const stats = [
-  { value: "4 dagar", label: "till fungerande prototyp" },
-  { value: "100", label: "Lighthouse-poäng i genomsnitt" },
-  { value: "70%", label: "automatiserade kundfrågor" },
-];
+  const serviceGroups: Array<{
+    _uid: string;
+    group_name: string;
+    services: Array<{
+      _uid: string;
+      titel: string;
+      teknisk_term: string;
+      problem: string;
+      output: string;
+    }>;
+  }> = c.service_groups ?? [];
 
-const customers = [
-  "Foodmark",
-  "Sharp",
-  "TT Nyhetsbyrån",
-  "Chef",
-  "Tele2",
-  "Stockholmsmässan",
-  "Nya Ekonomikompetens",
-];
+  const stats: Array<{ _uid: string; value: string; label: string }> =
+    c.stats ?? [];
 
-export default function HomePage() {
+  const customers: string[] = (c.customers ?? "")
+    .split(",")
+    .map((s: string) => s.trim())
+    .filter(Boolean);
+
   return (
     <>
       {/* Hero */}
@@ -107,13 +47,14 @@ export default function HomePage() {
               lineHeight: 1.1,
             }}
           >
-            Insikt över instinkt.
+            {c.hero_heading ?? "Insikt över instinkt."}
           </h1>
           <p
             className="font-sans text-xl font-light max-w-2xl leading-relaxed"
             style={{ color: "#888883" }}
           >
-            AI-lösningar som gör intern data och dokumentation sökbar, användbar och direkt handlingsbar.
+            {c.hero_subtext ??
+              "AI-lösningar som gör intern data och dokumentation sökbar, användbar och direkt handlingsbar."}
           </p>
           <div className="mt-12 flex flex-wrap gap-4">
             <a
@@ -121,14 +62,14 @@ export default function HomePage() {
               className="font-sans text-sm font-medium px-6 py-3 rounded transition-colors"
               style={{ backgroundColor: "#7EEBC0", color: "#111111" }}
             >
-              Starta ett projekt
+              {c.hero_cta_primary ?? "Starta ett projekt"}
             </a>
             <a
               href="/tjanster"
               className="font-sans text-sm px-6 py-3 rounded border transition-colors"
               style={{ color: "#F5F4F0", borderColor: "rgba(224,223,219,0.3)" }}
             >
-              Se tjänster
+              {c.hero_cta_secondary ?? "Se tjänster"}
             </a>
           </div>
         </div>
@@ -152,24 +93,27 @@ export default function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              Från rådata till beslut.
+              {c.services_heading ?? "Från rådata till beslut."}
             </h2>
           </ScrollReveal>
 
-          {services.map((group) => (
-            <div key={group.group} className="mb-20">
+          {serviceGroups.map((group) => (
+            <div key={group._uid} className="mb-20">
               <ScrollReveal>
                 <h3
                   className="font-sans text-sm uppercase tracking-widest mb-8"
                   style={{ color: "#7EEBC0" }}
                 >
-                  {group.group}
+                  {group.group_name}
                 </h3>
               </ScrollReveal>
-              <ScrollReveal stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {group.items.map((item) => (
+              <ScrollReveal
+                stagger
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {group.services.map((item) => (
                   <article
-                    key={item.title}
+                    key={item._uid}
                     className="border rounded-lg p-8 transition-all duration-300"
                     style={{
                       backgroundColor: "#161616",
@@ -180,13 +124,13 @@ export default function HomePage() {
                       className="font-serif text-xl mb-1"
                       style={{ color: "#F5F4F0" }}
                     >
-                      {item.title}
+                      {item.titel}
                     </h4>
                     <p
                       className="font-sans text-xs mb-5"
                       style={{ color: "#888883" }}
                     >
-                      {item.term}
+                      {item.teknisk_term}
                     </p>
                     <p
                       className="font-sans text-sm leading-relaxed mb-4"
@@ -216,7 +160,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <ScrollReveal stagger className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {stats.map((stat) => (
-              <div key={stat.value}>
+              <div key={stat._uid}>
                 <p
                   className="font-serif mb-3"
                   style={{
@@ -255,18 +199,17 @@ export default function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              Data i Sverige.{" "}
+              {c.security_heading ?? "Data i Sverige."}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                Ingen träning på kunddata.
+                {c.security_italic ?? "Ingen träning på kunddata."}
               </span>
             </h2>
             <p
               className="font-sans text-base leading-relaxed mb-8"
               style={{ color: "#888883" }}
             >
-              Alla AI-modeller körs i EU-hostade miljöer. Din data används aldrig för att träna
-              generella modeller. Vi jobbar enligt principen om minsta möjliga behörighet – bara
-              de som behöver åtkomst har den.
+              {c.security_text ??
+                "Alla AI-modeller körs i EU-hostade miljöer. Din data används aldrig för att träna generella modeller."}
             </p>
             <a
               href="/sakerhet"
@@ -319,8 +262,17 @@ export default function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              Redo att göra er data{" "}
-              <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>användbar</span>?
+              {c.cta_heading ? (
+                c.cta_heading
+              ) : (
+                <>
+                  Redo att göra er data{" "}
+                  <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
+                    användbar
+                  </span>
+                  ?
+                </>
+              )}
             </h2>
             <a
               href="/kontakt"

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import CaseCard from "@/components/storyblok/CaseCard";
+import { fetchStory } from "@/lib/storyblok";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Case",
@@ -10,45 +11,23 @@ export const metadata: Metadata = generatePageMetadata({
   path: "/case",
 });
 
-const cases = [
-  {
-    slug: "intern-kunskapssok",
-    kategori: "RAG / Intern sökning",
-    rubrik: "Från 40 minuters sökning till 30 sekunder",
-    resultat:
-      "En medelstor tillverkare med 12 år av intern dokumentation i spridda system. Vi byggde en semantisk sökmotor som indexerar allt och svarar på naturligt språk. Supportteamet hittar nu rätt information på sekunder istället för minuter.",
-  },
-  {
-    slug: "kundtjanst-bot",
-    kategori: "Conversational AI",
-    rubrik: "70% färre ärenden till kundtjänst",
-    resultat:
-      "En e-handlare med 150 000 aktiva kunder och ett supportteam som drunknade i repetitiva frågor. Vi tränade en chattbot på deras faktiska orderdata och FAQ. Idag hanterar boten 7 av 10 inkommande ärenden automatiskt.",
-  },
-  {
-    slug: "kampanjsajt-100-lighthouse",
-    kategori: "Webb / SEO",
-    rubrik: "100 Lighthouse. Lansering på 4 dagar.",
-    resultat:
-      "En produktlansering som krävde en sajt med hög prestanda och redaktörsverktyg för marknadsföringsteamet. Vi levererade en Next.js-sajt med Storyblok CMS som fick 100 poäng i alla Lighthouse-kategorier.",
-  },
-];
+export default async function CasePage() {
+  const story = await fetchStory("case");
+  const c = story?.content ?? {};
 
-const previousClients = [
-  "Mips",
-  "Vattenfall",
-  "OBOS",
-  "Readly",
-  "Foodmark",
-  "Sharp",
-  "TT Nyhetsbyrån",
-  "Chef",
-  "Tele2",
-  "Stockholmsmässan",
-  "Nya Ekonomikompetens",
-];
+  const cases: Array<{
+    _uid: string;
+    rubrik: string;
+    kategori: string;
+    resultat: string;
+    slug: string;
+  }> = c.cases ?? [];
 
-export default function CasePage() {
+  const previousClients: string[] = (c.previous_clients ?? "")
+    .split(",")
+    .map((s: string) => s.trim())
+    .filter(Boolean);
+
   return (
     <>
       {/* Intro */}
@@ -69,16 +48,17 @@ export default function CasePage() {
                 lineHeight: 1.1,
               }}
             >
-              Resultat,{" "}
+              {c.heading ?? "Resultat,"}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                inte presentationer.
+                {c.heading_italic ?? "inte presentationer."}
               </span>
             </h1>
             <p
               className="font-sans text-xl font-light max-w-xl leading-relaxed"
               style={{ color: "#888883" }}
             >
-              Vi mäter framgång i minskad söktid, färre supportärenden och sidor som faktiskt rankar.
+              {c.subheading ??
+                "Vi mäter framgång i minskad söktid, färre supportärenden och sidor som faktiskt rankar."}
             </p>
           </ScrollReveal>
         </div>
@@ -87,15 +67,24 @@ export default function CasePage() {
       {/* Cases */}
       <section className="section-padding container-x">
         <div className="max-w-7xl mx-auto">
-          <ScrollReveal stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ScrollReveal
+            stagger
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {cases.map((c) => (
-              <CaseCard key={c.slug} {...c} />
+              <CaseCard
+                key={c._uid}
+                slug={c.slug}
+                rubrik={c.rubrik}
+                kategori={c.kategori}
+                resultat={c.resultat}
+              />
             ))}
           </ScrollReveal>
         </div>
       </section>
 
-      {/* Horizontal scroll teaser */}
+      {/* Tidigare uppdragsgivare */}
       <section
         className="section-padding container-x border-t"
         style={{ borderColor: "rgba(224,223,219,0.1)" }}
@@ -138,7 +127,7 @@ export default function CasePage() {
                 lineHeight: 1.2,
               }}
             >
-              Nästa case kan vara ert.
+              {c.cta_heading ?? "Nästa case kan vara ert."}
             </h2>
             <a
               href="/kontakt"

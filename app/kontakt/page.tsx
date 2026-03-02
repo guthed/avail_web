@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import ContactForm from "./ContactForm";
+import { fetchStory } from "@/lib/storyblok";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Kontakt",
@@ -10,7 +11,10 @@ export const metadata: Metadata = generatePageMetadata({
   path: "/kontakt",
 });
 
-export default function KontaktPage() {
+export default async function KontaktPage() {
+  const story = await fetchStory("kontakt");
+  const c = story?.content ?? {};
+
   return (
     <>
       {/* Intro */}
@@ -31,16 +35,17 @@ export default function KontaktPage() {
                 lineHeight: 1.1,
               }}
             >
-              Berätta om er{" "}
+              {c.heading ?? "Berätta om er"}{" "}
               <span style={{ color: "#B8A9E8", fontStyle: "italic" }}>
-                utmaning.
+                {c.heading_italic ?? "utmaning."}
               </span>
             </h1>
             <p
               className="font-sans text-xl font-light max-w-xl leading-relaxed"
               style={{ color: "#888883" }}
             >
-              Vi svarar inom en arbetsdag med ett konkret förslag – inte en standardpitch.
+              {c.subheading ??
+                "Vi svarar inom en arbetsdag med ett konkret förslag – inte en standardpitch."}
             </p>
           </ScrollReveal>
         </div>
@@ -66,11 +71,11 @@ export default function KontaktPage() {
                     E-post
                   </p>
                   <a
-                    href="mailto:team@availsthlm.se"
+                    href={`mailto:${c.email ?? "team@availsthlm.se"}`}
                     className="font-sans text-lg transition-colors"
                     style={{ color: "#7EEBC0" }}
                   >
-                    team@availsthlm.se
+                    {c.email ?? "team@availsthlm.se"}
                   </a>
                 </div>
                 <div>
@@ -81,10 +86,11 @@ export default function KontaktPage() {
                     Plats
                   </p>
                   <p className="font-sans text-base" style={{ color: "#F5F4F0" }}>
-                    Stockholm, Sverige
+                    {c.location ?? "Stockholm, Sverige"}
                   </p>
                   <p className="font-sans text-sm mt-1" style={{ color: "#888883" }}>
-                    Vi arbetar med kunder i hela Norden och tar digitala möten.
+                    {c.location_sub ??
+                      "Vi arbetar med kunder i hela Norden och tar digitala möten."}
                   </p>
                 </div>
                 <div>
@@ -95,7 +101,7 @@ export default function KontaktPage() {
                     Svarstid
                   </p>
                   <p className="font-sans text-base" style={{ color: "#F5F4F0" }}>
-                    Inom en arbetsdag.
+                    {c.response_time ?? "Inom en arbetsdag."}
                   </p>
                 </div>
                 <div
@@ -109,10 +115,11 @@ export default function KontaktPage() {
                     className="font-serif text-base italic mb-3"
                     style={{ color: "#B8A9E8" }}
                   >
-                    Inte redo att skicka ett meddelande?
+                    {c.cta_box_heading ?? "Inte redo att skicka ett meddelande?"}
                   </p>
                   <p className="font-sans text-sm leading-relaxed" style={{ color: "#888883" }}>
-                    Boka ett 20-minuterssamtal direkt i vår kalender. Vi lyssnar, ger en opartisk bedömning och föreslår ett nästa steg – utan förpliktelse.
+                    {c.cta_box_text ??
+                      "Boka ett 20-minuterssamtal direkt i vår kalender. Vi lyssnar, ger en opartisk bedömning och föreslår ett nästa steg – utan förpliktelse."}
                   </p>
                 </div>
               </div>
