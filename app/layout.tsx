@@ -3,6 +3,7 @@ import { Instrument_Serif, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import StoryblokProvider from "@/components/StoryblokProvider";
 
 const instrumentSerif = Instrument_Serif({
   weight: ["400"],
@@ -83,9 +84,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
       </head>
       <body>
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+        <StoryblokProvider>
+          <Nav />
+          <main>{children}</main>
+          <Footer />
+        </StoryblokProvider>
       </body>
     </html>
   );
